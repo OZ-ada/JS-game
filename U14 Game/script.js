@@ -13,6 +13,7 @@ var platspeed = 3;
 var p1jump = false
 var p2jump = false
 
+var count
 
 function preload() {
     alien = loadImage("Player1.png")
@@ -102,13 +103,9 @@ function draw() {
     players.collide(borders);
     borders.collide(players);
 
-    x = random(6000);
-    text(Math.round(x), 500, 310);
-    if (x > 400 && x < 500) {
-        plat4.visible = false;
-    } else {
-        plat4.visible = true;
-    }
+
+    var x = Math.floor(Math.random() * 800)
+
 
     plat6.velocity.x = platspeed;
     if (plat6.overlap(platborder2)) {
@@ -119,7 +116,21 @@ function draw() {
     }
 
 
+    count++
+
+    platvanish(x);
     drawSprites();
+
+    if (x > 400 && x < 500) {
+        console.log("success")
+        plat4.visible = false;
+        count = 0;
+    }
+
+    if (count == 300);
+    plat4.visible = true;
+    count = 0;
+
 }
 
 function keyPressed() {
@@ -140,5 +151,9 @@ function keyPressed() {
             p1jump = false;
         }
     }
+
+}
+
+function platvanish(x) {
 
 }
