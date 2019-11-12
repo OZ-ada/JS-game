@@ -21,6 +21,7 @@ function preload() {
     alien = loadImage("Player1.png")
     clown = loadImage("Player2.png")
     gun = loadImage("gun.png")
+    boom = loadImage("explosion.png")
 
 }
 
@@ -66,6 +67,19 @@ function setup() {
     platborder1.visible = false;
     platborder2.visible = false;
 
+    p1Gun = createSprite((player1.position.x + 50), 690);
+    p1Gun.addImage(gun)
+    p1Gun.scale = 0.3;
+    p2Gun = createSprite((player2.position.x - 50), 690)
+    p2Gun.addImage(gun)
+    p2Gun.scale = 0.3;
+    p1Muzzle = createSprite(500,500);
+    p1Muzzle.addImage(boom);
+    p1Muzzle.scale = 0.03;
+    
+    
+
+
 
 }
 
@@ -77,26 +91,39 @@ function draw() {
     player1.velocity.y += GRAVITY;
     if (keyIsDown(65)) {
         player1.position.x -= 5;
+        p1Gun.position.x = player1.position.x - 50
+        p1Gun.mirrorX(1)
     }
 
     if (keyIsDown(68)) {
         player1.position.x += 5;
+        p1Gun.position.x = player1.position.x + 50
+        p1Gun.mirrorX(-1)
     }
 
     if (player1.collide(ground) || player1.collide(platforms)) {
         player1.velocity.y = 0;
     }
 
+    p1Gun.position.y = player1.position.y
+
     //player 2 movement
     player2.velocity.y += GRAVITY
     if (keyIsDown(37)) {
         player2.position.x -= 5;
+        p2Gun.position.x = player2.position.x - 50
+        p2Gun.mirrorX(1)
     }
 
     if (keyIsDown(39)) {
         player2.position.x += 5;
+        p2Gun.position.x = player2.position.x + 50;
+        p2Gun.mirrorX(-1);
     }
-
+    
+    p2Gun.position.y = player2.position.y
+    
+//collisions
     if (player2.collide(ground) || player2.collide(platforms)) {
         player2.velocity.y = 0;
     }
@@ -113,35 +140,36 @@ function draw() {
         platspeed = 3
     }
 
-    x = random(15)
+    x = random(50)
 
     if (plat4.visible == true) {
-        if (count < 15) {
+        count++
+        if (count > 300) {
+            count = 0
+        }
+        if (count == Math.round(x)) {
+            plat4.visible = false
+            plat4.position.x = 5000; 
+        } else {
             count++
+            if (count == 300) {
+                plat4.visible = true
+            }
         }
-        if (count == 15) {
-            count = 0
-        }
-        if (x == count) {
-            plat4.visible = false;
-            count = 0
-        }
+
 
     }
 
     if (plat4.visible == false) {
-        if (count > 300) {
+        if (count < 200) {
             count++
         }
-        if (count == 300) {
+        if (count == 200) {
+            plat4.position.x = 200;
             plat4.visible = true;
         }
     }
 
-
-
-    text(Math.round(x), 500, 500)
-    text(count, 500, 400)
 
 
     drawSprites();
@@ -167,4 +195,4 @@ function keyPressed() {
         }
     }
 }
-QQQQ
+
