@@ -140,6 +140,7 @@ function draw() {
         platspeed = 3
     }
 
+<<<<<<< HEAD
     x = random(50)
 
     if (plat4.visible == true) {
@@ -170,6 +171,36 @@ function draw() {
         }
     }
 
+=======
+    x = random(15)
+    if (count < 15 && plat4.visible == true) {
+        count += 1
+        if (count == 15) {
+            count = 0;
+        }
+    }
+    if (Math.round(x) == count && plat4.visible == true) {
+        plat4.visible = false
+    }
+    
+    z = random(15)
+    if(count <15 && plat4.visible == false){
+        count += 1
+    }
+    else if(count == 15 && plat4.visible == false){
+       count = 0 
+    }
+    
+    if (Math.round(z) == count && plat4.visible == false){
+        plat4.visible == true
+    }
+    
+
+
+
+    text(Math.round(x), 500, 500)
+    text(count, 500, 400)
+>>>>>>> origin/master
 
 
     drawSprites();
