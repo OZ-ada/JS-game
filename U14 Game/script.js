@@ -17,6 +17,8 @@ var count = 0;
 var x;
 var z;
 
+var p1flash = 0
+
 function preload() {
     alien = loadImage("Player1.png")
     clown = loadImage("Player2.png")
@@ -73,11 +75,12 @@ function setup() {
     p2Gun = createSprite((player2.position.x - 50), 690)
     p2Gun.addImage(gun)
     p2Gun.scale = 0.3;
-    p1Muzzle = createSprite(500,500);
+    p1Muzzle = createSprite(500, 500);
     p1Muzzle.addImage(boom);
     p1Muzzle.scale = 0.03;
-    
-    
+    p1Muzzle.visible = false;
+
+
 
 
 
@@ -93,12 +96,14 @@ function draw() {
         player1.position.x -= 5;
         p1Gun.position.x = player1.position.x - 50
         p1Gun.mirrorX(1)
+        p1Muzzle.position.x = p1Gun.position.x - 30
     }
 
     if (keyIsDown(68)) {
         player1.position.x += 5;
         p1Gun.position.x = player1.position.x + 50
         p1Gun.mirrorX(-1)
+        p1Muzzle.position.x = p1Gun.position.x + 30
     }
 
     if (player1.collide(ground) || player1.collide(platforms)) {
@@ -106,6 +111,7 @@ function draw() {
     }
 
     p1Gun.position.y = player1.position.y
+    p1Muzzle.position.y = p1Gun.position.y - 10
 
     //player 2 movement
     player2.velocity.y += GRAVITY
@@ -120,10 +126,11 @@ function draw() {
         p2Gun.position.x = player2.position.x + 50;
         p2Gun.mirrorX(-1);
     }
-    
+
     p2Gun.position.y = player2.position.y
-    
-//collisions
+
+
+    //collisions
     if (player2.collide(ground) || player2.collide(platforms)) {
         player2.velocity.y = 0;
     }
@@ -149,15 +156,13 @@ function draw() {
         }
         if (count == Math.round(x)) {
             plat4.visible = false
-            plat4.position.x = 5000; 
+            plat4.position.x = 5000;
         } else {
             count++
             if (count == 300) {
                 plat4.visible = true
             }
         }
-
-
     }
 
     if (plat4.visible == false) {
@@ -169,37 +174,9 @@ function draw() {
             plat4.visible = true;
         }
     }
-    x = random(15)
-    if (count < 15 && plat4.visible == true) {
-        count += 1
-        if (count == 15) {
-            count = 0;
-        }
+    if (keyIsDown(32)){
+        shooting(p1Muzzle,p1flash);
     }
-    if (Math.round(x) == count && plat4.visible == true) {
-        plat4.visible = false
-    }
-    
-    z = random(15)
-    if(count <15 && plat4.visible == false){
-        count += 1
-    }
-    else if(count == 15 && plat4.visible == false){
-       count = 0 
-    }
-    
-    if (Math.round(z) == count && plat4.visible == false){
-        plat4.visible == true
-    }
-    
-
-
-
-    text(Math.round(x), 500, 500)
-    text(count, 500, 400)
-
-
-
     drawSprites();
 
 }
@@ -224,3 +201,14 @@ function keyPressed() {
     }
 }
 
+function shooting(muzzle,flash){
+    if(flash < 10){
+        flash ++
+        muzzle.visible = true
+    }
+    else{
+        muzzle.visible = false
+    }
+        
+        
+    }
