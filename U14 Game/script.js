@@ -25,6 +25,7 @@ var p2Shooting = false
 
 var p1Life = 3
 var p2Life = 3
+
 function preload() {
     alien = loadImage("Player1.png")
     clown = loadImage("Player2.png")
@@ -90,32 +91,32 @@ function setup() {
     p2Gun = createSprite((player2.position.x - 50), 690)
     p2Gun.addImage(gun)
     p2Gun.scale = 0.3;
-    
-    p1Projectile = createSprite(100,600,11,5)
+
+    p1Projectile = createSprite(100, 600, 11, 5)
     p1Projectile.visible = false
     p1Projectile.shapeColor = ('yellow')
-    
-    p2Projectile = createSprite(100,600,11,5)
+
+    p2Projectile = createSprite(100, 600, 11, 5)
     p2Projectile.visible = false
     p2Projectile.shapeColor = ('orange')
-    
-    p1Heart1 = createSprite( 30 , 30);
+
+    p1Heart1 = createSprite(30, 30);
     p1Heart1.addImage(heart1);
     p1Heart1.scale = 0.8;
-    p1Heart2 = createSprite( 69 , 30 );
+    p1Heart2 = createSprite(69, 30);
     p1Heart2.addImage(heart1)
     p1Heart2.scale = 0.8;
-    p1Heart3 = createSprite( 108 , 30);
+    p1Heart3 = createSprite(108, 30);
     p1Heart3.addImage(heart1);
     p1Heart3.scale = 0.8;
-    
-    p2Heart1 = createSprite( 892 , 30);
+
+    p2Heart1 = createSprite(892, 30);
     p2Heart1.addImage(heart2);
     p2Heart1.scale = 0.8;
-    p2Heart2 = createSprite( 931 , 30 );
+    p2Heart2 = createSprite(931, 30);
     p2Heart2.addImage(heart2)
     p2Heart2.scale = 0.8;
-    p2Heart3 = createSprite( 970 , 30);
+    p2Heart3 = createSprite(970, 30);
     p2Heart3.addImage(heart2);
     p2Heart3.scale = 0.8;
 }
@@ -145,7 +146,7 @@ function draw() {
     }
 
     p1Gun.position.y = player1.position.y
-    
+
     //player 2 movement
     player2.velocity.y += GRAVITY
     if (keyIsDown(37)) {
@@ -209,54 +210,61 @@ function draw() {
             plat4.visible = true;
         }
     }
-    
+
     //Player 1 Shooting
-    if (keyIsDown(32) && p1Left == true){ 
+    if (keyIsDown(32) && p1Left == true) {
         p1Shooting = true
-        p1Projectile.position.x = player1.position.x
+        p1Projectile.position.x = p1Gun.position.x
         p1Projectile.position.y = player1.position.y - 10
         p1Projectile.visible = true
         p1Projectile.velocity.x = -20
-        }
-    
-    if (keyIsDown(32) && p1Left == false){ 
-    p1Shooting = true
-    p1Projectile.position.x = player1.position.x
-    p1Projectile.position.y = player1.position.y - 10
-    p1Projectile.visible = true
-    p1Projectile.velocity.x = 20
-        
     }
-    
-    if(p1Shooting = true){
+
+    if (keyIsDown(32) && p1Left == false) {
+        p1Shooting = true
+        p1Projectile.position.x = p1Gun.position.x
+        p1Projectile.position.y = player1.position.y - 10
+        p1Projectile.visible = true
+        p1Projectile.velocity.x = 20
 
     }
-    
-    if(p1Projectile.position.x == 1000){
+
+    if (p1Shooting = true) {
+
+    }
+
+    if (p1Projectile.position.x == 1000) {
         p1Shooting = false
         p1Projectile.velocity.x = 0
     }
-    
+
     //Player 2 Shooting
-    if (keyIsDown(17) && p2Left == true){ 
+    if (keyIsDown(17) && p2Left == true) {
         p2Shooting = true
-        p2Projectile.position.x = player2.position.x
+        p2Projectile.position.x = p2Gun.position.x
         p2Projectile.position.y = player2.position.y - 10
         p2Projectile.visible = true
         p2Projectile.velocity.x = -20
-        }
-    
-    if (keyIsDown(17) && p2Left == false){ 
-    p2Shooting = true
-    p2Projectile.position.x = player2.position.x
-    p2Projectile.position.y = player2.position.y - 10
-    p2Projectile.visible = true
-    p2Projectile.velocity.x = 20
+    }
+
+    if (keyIsDown(17) && p2Left == false) {
+        p2Shooting = true
+        p2Projectile.position.x = p2Gun.position.x
+        p2Projectile.position.y = player2.position.y - 10
+        p2Projectile.visible = true
+        p2Projectile.velocity.x = 20
+
+    }
+
+    if (player1.collide(p2Projectile)){
+        p1Life -= 1
         
     }
-    
-    
-    drawSprites();
+
+
+
+
+        drawSprites();
 
 }
 
