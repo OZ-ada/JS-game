@@ -212,7 +212,7 @@ function draw() {
     }
 
     //Player 1 Shooting
-    if (keyIsDown(32) && p1Left == true) {
+    if (keyIsDown(32) && p1Left == true && p1Shooting == false) {
         p1Shooting = true
         p1Projectile.position.x = p1Gun.position.x
         p1Projectile.position.y = player1.position.y - 10
@@ -220,26 +220,21 @@ function draw() {
         p1Projectile.velocity.x = -20
     }
 
-    if (keyIsDown(32) && p1Left == false) {
+    if (keyIsDown(32) && p1Left == false && p1Shooting == false) {
         p1Shooting = true
         p1Projectile.position.x = p1Gun.position.x
         p1Projectile.position.y = player1.position.y - 10
         p1Projectile.visible = true
         p1Projectile.velocity.x = 20
-
     }
 
-    if (p1Shooting = true) {
 
-    }
-
-    if (p1Projectile.position.x == 1000) {
+    if (p1Projectile.overlap(borders)) {
         p1Shooting = false
-        p1Projectile.velocity.x = 0
     }
 
     //Player 2 Shooting
-    if (keyIsDown(17) && p2Left == true) {
+    if (keyIsDown(45) && p2Left == true && p2Shooting == false) {
         p2Shooting = true
         p2Projectile.position.x = p2Gun.position.x
         p2Projectile.position.y = player2.position.y - 10
@@ -247,24 +242,40 @@ function draw() {
         p2Projectile.velocity.x = -20
     }
 
-    if (keyIsDown(17) && p2Left == false) {
+    if (keyIsDown(45) && p2Left == false && p2Shooting == false) {
         p2Shooting = true
         p2Projectile.position.x = p2Gun.position.x
         p2Projectile.position.y = player2.position.y - 10
         p2Projectile.visible = true
         p2Projectile.velocity.x = 20
-
     }
-
-    if (player1.collide(p2Projectile)){
-        p1Life -= 1
+    
+    if (p2Projectile.overlap(borders)){
+        p2Shooting = false
+        
         
     }
+    //p1 damage
+    if (p2Projectile.overlap(player1)) {
+        p1Life -= 1
+        p2Projectile.position.x = 5000
+        p2Projectile.velocity.x = 0
+        p2Shooting = false
+
+    }
+    
+    if (p1Projectile.overlap(player2)){
+        p2Life -=1
+        p1Projectile.position.x = 5000
+        p1Projectile.velocity.x = 0
+        p1Shooting = false
+    }
+
+    text(p1Life,500,500)
+    text(p2Life,600,500)
 
 
-
-
-        drawSprites();
+    drawSprites();
 
 }
 
