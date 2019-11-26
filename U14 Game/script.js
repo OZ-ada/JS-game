@@ -22,17 +22,24 @@ var z;
 
 var p1Shooting = false
 var p2Shooting = false
+var p1Cooldown = 0
+var p2Cooldown = 0
 
 var p1Life = 3
 var p2Life = 3
 
+var p1Win = false
+var p2Win = false
+var tie = false
+
 function preload() {
-    alien = loadImage("Player1.png")
-    clown = loadImage("Player2.png")
-    gun = loadImage("gun.png")
-    boom = loadImage("explosion.png")
-    heart1 = loadImage("p1Heart.png")
-    heart2 = loadImage("p2Heart.png")
+    alien = loadImage("Assets/Player1.png")
+    clown = loadImage("Assets/Player2.png")
+    gun = loadImage("Assets/gun.png")
+    boom = loadImage("Assets/explosion.png")
+    heart1 = loadImage("Assets/p1Heart.png")
+    heart2 = loadImage("Assets/p2Heart.png")
+    jumpSound = loadSound("Assets/SFX_Jump_09.wav")
 
 }
 
@@ -92,11 +99,11 @@ function setup() {
     p2Gun.addImage(gun)
     p2Gun.scale = 0.3;
 
-    p1Projectile = createSprite(100, 600, 11, 5)
+    p1Projectile = createSprite(1000, 1000, 11, 5)
     p1Projectile.visible = false
     p1Projectile.shapeColor = ('yellow')
 
-    p2Projectile = createSprite(100, 600, 11, 5)
+    p2Projectile = createSprite(1000, 1000, 11, 5)
     p2Projectile.visible = false
     p2Projectile.shapeColor = ('orange')
 
@@ -228,8 +235,11 @@ function draw() {
         p1Projectile.velocity.x = 20
     }
 
-
-    if (p1Projectile.overlap(borders)) {
+    if (p1Shooting){
+        p1Cooldown ++
+    }
+    if(p1Cooldown == 45){
+        p1Cooldown = 0
         p1Shooting = false
     }
 
@@ -250,29 +260,58 @@ function draw() {
         p2Projectile.velocity.x = 20
     }
     
-    if (p2Projectile.overlap(borders)){
-        p2Shooting = false
-        
-        
+    if (p2Shooting){
+        p2Cooldown ++
     }
+    if(p2Cooldown == 45){
+        p2Cooldown = 0
+        p2Shooting = false
+    }    
+    
     //p1 damage
     if (p2Projectile.overlap(player1)) {
         p1Life -= 1
         p2Projectile.position.x = 5000
         p2Projectile.velocity.x = 0
-        p2Shooting = false
 
     }
-    
-    if (p1Projectile.overlap(player2)){
-        p2Life -=1
+    //p2 damage
+    if (p1Projectile.overlap(player2)) {
+        p2Life -= 1
         p1Projectile.position.x = 5000
         p1Projectile.velocity.x = 0
-        p1Shooting = false
     }
-
-    text(p1Life,500,500)
-    text(p2Life,600,500)
+    
+    if(p1Life < 3){
+        p1Heart3.visible = false
+        if (p1Life < 2){
+            p1Heart2.visible = false
+            if(p1Life < 1){
+                p1Heart1.visible = false
+                p2Win = true
+                player1.position.x = 5000
+            }
+        }
+    }
+    
+    if(p2Life < 3){
+        p2Heart1.visible = false
+        if(p2Life < 2){
+            p2Heart2.visible = false
+            if(p2Life < 1){
+                p2Heart3.visible = false
+                p1Win = true
+                player2.position.x = 5000
+            }
+        }
+    }
+    
+    if(p1Win == true && p2Win == true){
+        tie = true
+    }
+    
+    text(p1Life, 500, 500)
+    text(p2Life, 600, 500)
 
 
     drawSprites();
@@ -284,6 +323,7 @@ function keyPressed() {
     if (keyCode === UP_ARROW && p2jump == false) {
         player2.velocity.y -= JUMP;
         p2jump = true
+        jumpSound.play()
     } else {
         if (player2.velocity.y === 0) {
             p2jump = false;
@@ -293,6 +333,7 @@ function keyPressed() {
     if (keyIsDown(87) && p1jump == false) {
         player1.velocity.y -= JUMP;
         p1jump = true
+        jumpSound.play()
     } else {
         if (player1.velocity.y === 0) {
             p1jump = false;
