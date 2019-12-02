@@ -10,6 +10,12 @@ var GRAVITY = 1;
 var JUMP = 16;
 var platspeed = 3;
 
+var p1X = 0
+var p1Y = 0
+var p2X = 0
+var p2Y = 0
+
+
 var p1jump = false;
 var p2jump = false;
 
@@ -35,6 +41,13 @@ var tie = false
 var buttonY = 300
 
 var gameStart = false
+
+var p1ySpawn = 0
+var p2yPsawn = 0
+
+p1YSpawn = [695,610,500,390]
+p2YSpawn = [695,610,500,390]
+
 
 function preload() {
     backdrop = loadImage("Assets/landscape.png")
@@ -72,6 +85,8 @@ function menu() {
         textFont("Bebas Neue")
         fill(255)
         text("Play", 500, 310)
+        textSize(40)
+        text("Instructions",500,510)
         if (menuButtons[0].mouseIsOver) {
             if (mouseIsPressed) {
                 startup()
@@ -84,11 +99,48 @@ function menu() {
     }
 }
 
+function endScreen(){
+    if (p1Life < 1){
+        text("Player 2 Wins",500,250)
+        
+    }
+    if (p2Life < 1){
+        background(0)
+        text("Player 1 Wins", 500, 250)
+    }
+}
+
 function startup() {
-    player1 = createSprite(50, 690);
+    p1Y = random(0,3);
+    p2Y = random(0,3);
+    p1ySpawn = p1YSpawn[Math.round(p1Y)]
+    p2ySpawn = p2YSpawn[Math.round(p2Y)]
+    if(p1ySpawn == 695){
+        p1X = random(500)
+    }
+    if(p1ySpawn == 610 || p1ySpawn == 390){
+        p1X = random(50,350)
+    }
+    if(p1ySpawn == 500){
+        p1X = random(350,500)
+    }
+    
+    if(p2ySpawn == 695){
+        p2X = random(500,1000)
+    }
+    if(p2ySpawn == 610 || p2ySpawn == 390){
+        p2X = random(470,770)
+    }
+    if(p2ySpawn == 500){
+        p2X = random(500,650)
+    }
+    
+    
+    
+    player1 = createSprite(p1X, p1ySpawn); //50 690
     player1.addImage(alien);
     player1.scale = 0.3;
-    player2 = createSprite(950, 690);
+    player2 = createSprite(p2X, p2ySpawn); //950 690
     player2.addImage(clown);
     player2.scale = 0.3;
     players = Group();
@@ -168,6 +220,20 @@ function startup() {
     p2Heart3 = createSprite(970, 30);
     p2Heart3.addImage(heart2);
     p2Heart3.scale = 0.8;
+}
+
+function countDown(){
+    fill(255,0,0);
+    rect(500,0,20,1000)
+    
+    fill(0,255,0);
+    textSize(50);
+    text("Player 1", 200 , 250)
+    
+    fill(0,0,250);
+    textSize(50);
+    text("Player 2", 700, 250)
+    
 }
 
 function game() {
@@ -350,9 +416,6 @@ function game() {
         if (p1Win == true && p2Win == true) {
             tie = true
         }
-
-        text(p1Life, 500, 500)
-        text(p2Life, 600, 500)
     }
 
 }
@@ -360,8 +423,9 @@ function game() {
 function draw() {
 
     background(backdrop);
-
     game()
+    countDown()
+    
 
     drawSprites();
 
