@@ -54,10 +54,11 @@ function preload() {
     alien = loadImage("Assets/Player1.png")
     clown = loadImage("Assets/Player2.png")
     gun = loadImage("Assets/gun.png")
-    boom = loadImage("Assets/explosion.png")
     heart1 = loadImage("Assets/p1Heart.png")
     heart2 = loadImage("Assets/p2Heart.png")
     jumpSound = loadSound("Assets/SFX_Jump_09.wav")
+    shoot = loadSound("Assets/laserpew.ogg")
+    music = loadSound("Assets/Fighting is not an option.wav")
 }
 
 function setup() {
@@ -111,6 +112,7 @@ function endScreen(){
 }
 
 function startup() {
+    music.play()
     p1Y = random(0,3);
     p2Y = random(0,3);
     p1ySpawn = p1YSpawn[Math.round(p1Y)]
@@ -185,21 +187,21 @@ function startup() {
     platborder1.visible = false;
     platborder2.visible = false;
 
-    p1Gun = createSprite((player1.position.x + 50), 690);
+    p1Gun = createSprite((player1.position.x + 45), 690);
     p1Gun.addImage(gun)
-    p1Gun.scale = 0.3;
+    p1Gun.scale = 0.1;
     p1Gun.mirrorX(-1)
-    p2Gun = createSprite((player2.position.x - 50), 690)
+    p2Gun = createSprite((player2.position.x - 45), 690)
     p2Gun.addImage(gun)
-    p2Gun.scale = 0.3;
+    p2Gun.scale = 0.1;
 
     p1Projectile = createSprite(1000, 1000, 11, 5)
     p1Projectile.visible = false
-    p1Projectile.shapeColor = ('yellow')
+    p1Projectile.shapeColor = ('red')
 
     p2Projectile = createSprite(1000, 1000, 11, 5)
     p2Projectile.visible = false
-    p2Projectile.shapeColor = ('orange')
+    p2Projectile.shapeColor = ('green')
 
     p1Heart1 = createSprite(30, 30);
     p1Heart1.addImage(heart1);
@@ -329,17 +331,19 @@ function game() {
         if (keyIsDown(32) && p1Left == true && p1Shooting == false) {
             p1Shooting = true
             p1Projectile.position.x = p1Gun.position.x
-            p1Projectile.position.y = player1.position.y - 10
+            p1Projectile.position.y = p1Gun.position.y
             p1Projectile.visible = true
             p1Projectile.velocity.x = -20
+            shoot.play()
         }
 
         if (keyIsDown(32) && p1Left == false && p1Shooting == false) {
             p1Shooting = true
             p1Projectile.position.x = p1Gun.position.x
-            p1Projectile.position.y = player1.position.y - 10
+            p1Projectile.position.y = p1Gun.position.y
             p1Projectile.visible = true
             p1Projectile.velocity.x = 20
+            shoot.play()
         }
 
         if (p1Shooting) {
@@ -354,17 +358,19 @@ function game() {
         if (keyIsDown(45) && p2Left == true && p2Shooting == false) {
             p2Shooting = true
             p2Projectile.position.x = p2Gun.position.x
-            p2Projectile.position.y = player2.position.y - 10
+            p2Projectile.position.y = p2Gun.position.y
             p2Projectile.visible = true
             p2Projectile.velocity.x = -20
+            shoot.play()
         }
 
         if (keyIsDown(45) && p2Left == false && p2Shooting == false) {
             p2Shooting = true
             p2Projectile.position.x = p2Gun.position.x
-            p2Projectile.position.y = player2.position.y - 10
+            p2Projectile.position.y = p2Gun.position.y
             p2Projectile.visible = true
             p2Projectile.velocity.x = 20
+            shoot.play()
         }
 
         if (p2Shooting) {
