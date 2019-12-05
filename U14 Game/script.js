@@ -73,8 +73,7 @@ function preload() {
     jumpSound = loadSound("Assets/SFX_Jump_09.wav")
     shoot = loadSound("Assets/laserpew.ogg")
     music = loadSound("Assets/Fighting is not an option.wav")
-    countdown1 = loadSound("Assets/countdown-a.ogg")
-    countdown2 = loadSound("Assets/countdown-b.ogg")
+
 }
 
 function setup() {
@@ -300,11 +299,9 @@ function countDown() {
 
     }
     if (goSound < 60) {
-        countdown1.play()
         goSound++
     }
     if (goSound > 60 && goSound < 180) {
-        countdown2.play()
         goSound++
     }
 
