@@ -25,6 +25,7 @@ var p2Left = true;
 var count = 0;
 var x;
 var z;
+var ba = 0;
 
 var p1Shooting = false
 var p2Shooting = false
@@ -45,8 +46,19 @@ var gameStart = false
 var p1ySpawn = 0
 var p2yPsawn = 0
 
-p1YSpawn = [695,610,500,390]
-p2YSpawn = [695,610,500,390]
+var goSound = 0
+
+var fireworkCount1;
+var fireworkCount2;
+var fireworkCount3;
+var fireworkCount4;
+var fireworkCount5;
+
+var fireworkX;
+var fireworkY;
+
+p1YSpawn = [695, 610, 500, 390]
+p2YSpawn = [695, 610, 500, 390]
 
 
 function preload() {
@@ -56,9 +68,13 @@ function preload() {
     gun = loadImage("Assets/gun.png")
     heart1 = loadImage("Assets/p1Heart.png")
     heart2 = loadImage("Assets/p2Heart.png")
+    firework1 = loadImage("Assets/firework1.png")
+    firework2 = loadImage("Assets/firework2.png")
     jumpSound = loadSound("Assets/SFX_Jump_09.wav")
     shoot = loadSound("Assets/laserpew.ogg")
     music = loadSound("Assets/Fighting is not an option.wav")
+    countdown1 = loadSound("Assets/countdown-a.ogg")
+    countdown2 = loadSound("Assets/countdown-b.ogg")
 }
 
 function setup() {
@@ -87,7 +103,7 @@ function menu() {
         fill(255)
         text("Play", 500, 310)
         textSize(40)
-        text("Instructions",500,510)
+        text("Instructions", 500, 510)
         if (menuButtons[0].mouseIsOver) {
             if (mouseIsPressed) {
                 startup()
@@ -100,45 +116,86 @@ function menu() {
     }
 }
 
-function endScreen(){
-    if (p1Life < 1){
-        text("Player 2 Wins",500,250)
-        
+function endScreen() {
+
+    if (p1Life < 1) {
+
+        textAlign(CENTER)
+        textFont("Bebas Neue")
+        textSize(100)
+        text("Player 2 Wins", 500, 250)
+        textSize(20)
+        text("Press R to go back to the Main Menu", 500, 300)
+        fireworks = new Group();
+        for (var a = 0; a < 5; a++) {
+            firework = createSprite();
+            firework.addImage(firework1)
+            fireworks.add(firework)
+        }
+        for (var b = 0; b < 10; b++) {
+            for (var fireworkCount = 0; fireworkCount < 5; fireworkCount++) {
+                fireworkX = random(1000)
+                fireworkY = random(0, 390)
+                fireworks[fireworkCount].position.x = fireworkX
+                fireworks[fireworkCount].position.y = fireworkY
+            }
+        }
+
+
     }
-    if (p2Life < 1){
-        background(0)
+    if (p2Life < 1) {
+        textAlign(CENTER)
+        textFont("Bebas Neue")
+        textSize(100)
         text("Player 1 Wins", 500, 250)
+        textSize(20)
+        text("Press R to go back to the Main Menu", 500, 300)
+        fireworks = new Group();
+        for (var z = 0; z < 5; z++) {
+            firework = createSprite()
+            firework.addImage(firework1)
+            firework.scale(0.5)
+            fireworks.add(firework)
+        }
+           for (var b = 0; b < 10; b++) {
+            for (var fireworkCount = 0; fireworkCount < 5; fireworkCount++) {
+                fireworkX = random(1000)
+                fireworkY = random(0, 390)
+                fireworks[fireworkCount].position.x = fireworkX
+                fireworks[fireworkCount].position.y = fireworkY
+            }
+        }     
     }
 }
 
 function startup() {
     music.play()
-    p1Y = random(0,3);
-    p2Y = random(0,3);
+    p1Y = random(0, 3);
+    p2Y = random(0, 3);
     p1ySpawn = p1YSpawn[Math.round(p1Y)]
     p2ySpawn = p2YSpawn[Math.round(p2Y)]
-    if(p1ySpawn == 695){
+    if (p1ySpawn == 695) {
         p1X = random(500)
     }
-    if(p1ySpawn == 610 || p1ySpawn == 390){
-        p1X = random(50,350)
+    if (p1ySpawn == 610 || p1ySpawn == 390) {
+        p1X = random(50, 350)
     }
-    if(p1ySpawn == 500){
-        p1X = random(350,500)
+    if (p1ySpawn == 500) {
+        p1X = random(350, 500)
     }
-    
-    if(p2ySpawn == 695){
-        p2X = random(500,1000)
+
+    if (p2ySpawn == 695) {
+        p2X = random(500, 1000)
     }
-    if(p2ySpawn == 610 || p2ySpawn == 390){
-        p2X = random(470,770)
+    if (p2ySpawn == 610 || p2ySpawn == 390) {
+        p2X = random(470, 770)
     }
-    if(p2ySpawn == 500){
-        p2X = random(500,650)
+    if (p2ySpawn == 500) {
+        p2X = random(500, 650)
     }
-    
-    
-    
+
+
+
     player1 = createSprite(p1X, p1ySpawn); //50 690
     player1.addImage(alien);
     player1.scale = 0.3;
@@ -224,18 +281,33 @@ function startup() {
     p2Heart3.scale = 0.8;
 }
 
-function countDown(){
-    fill(255,0,0);
-    rect(500,0,20,1000)
-    
-    fill(0,255,0);
-    textSize(50);
-    text("Player 1", 200 , 250)
-    
-    fill(0,0,250);
-    textSize(50);
-    text("Player 2", 700, 250)
-    
+function countDown() {
+
+    if (ba < 180) {
+
+
+        fill(255, 0, 0);
+        rect(500, 0, 20, 1000)
+
+        fill(0, 255, 0);
+        textSize(50);
+        text("Player 1", 200, 250)
+
+        fill(0, 0, 250);
+        textSize(50);
+        text("Player 2", 700, 250)
+        ba++
+
+    }
+    if (goSound < 60) {
+        countdown1.play()
+        goSound++
+    }
+    if (goSound > 60 && goSound < 180) {
+        countdown2.play()
+        goSound++
+    }
+
 }
 
 function game() {
@@ -285,6 +357,7 @@ function game() {
         //collisions
         if (player2.collide(ground) || player2.collide(platforms)) {
             player2.velocity.y = 0;
+
         }
 
         players.collide(platforms);
@@ -430,12 +503,13 @@ function draw() {
 
     background(backdrop);
     game()
-    countDown()
-    
+
 
     drawSprites();
 
     menu()
+
+    endScreen()
 
 }
 
