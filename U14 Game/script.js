@@ -153,7 +153,6 @@ function endScreen() {
         for (var z = 0; z < 5; z++) {
             firework = createSprite()
             firework.addImage(firework1)
-            firework.scale(0.5)
             fireworks.add(firework)
         }
            for (var b = 0; b < 10; b++) {
@@ -162,9 +161,11 @@ function endScreen() {
                 fireworkY = random(0, 390)
                 fireworks[fireworkCount].position.x = fireworkX
                 fireworks[fireworkCount].position.y = fireworkY
+                
             }
         }     
     }
+    
 }
 
 function startup() {
@@ -507,6 +508,16 @@ function draw() {
     menu()
 
     endScreen()
+    if(keyIsDown(82)){
+        player1.remove()
+        player2.remove()
+        p1Gun.remove()
+        p2Gun.remove()
+        plat4.remove()
+        plat6.remove()
+        startup()
+        
+    }
 
 }
 
