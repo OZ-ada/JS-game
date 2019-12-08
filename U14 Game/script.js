@@ -15,7 +15,6 @@ var p1Y = 0
 var p2X = 0
 var p2Y = 0
 
-
 var p1jump = false;
 var p2jump = false;
 
@@ -139,6 +138,9 @@ function endScreen() {
                 fireworks[fireworkCount].position.y = fireworkY
             }
         }
+        if (keyIsDown(82)) {
+            location.reload(true)
+        }
 
 
     }
@@ -155,17 +157,22 @@ function endScreen() {
             firework.addImage(firework1)
             fireworks.add(firework)
         }
-           for (var b = 0; b < 10; b++) {
+        for (var b = 0; b < 10; b++) {
             for (var fireworkCount = 0; fireworkCount < 5; fireworkCount++) {
                 fireworkX = random(1000)
                 fireworkY = random(0, 390)
                 fireworks[fireworkCount].position.x = fireworkX
                 fireworks[fireworkCount].position.y = fireworkY
-                
+
             }
-        }     
+        }
+
+        if (keyIsDown(82)) {
+            location.reload(true)
+        }
+
     }
-    
+
 }
 
 function startup() {
@@ -286,6 +293,7 @@ function countDown() {
     if (ba < 180) {
 
 
+        
         fill(255, 0, 0);
         rect(500, 0, 20, 1000)
 
@@ -508,17 +516,11 @@ function draw() {
     menu()
 
     endScreen()
-    if(keyIsDown(82)){
-        player1.remove()
-        player2.remove()
-        p1Gun.remove()
-        p2Gun.remove()
-        plat4.remove()
-        plat6.remove()
-        startup()
-        
-    }
+    //Hold R for clone wars
+    //if(keyIsDown(82)){
+        //startup()
 
+    //}
 }
 
 function keyPressed() {
