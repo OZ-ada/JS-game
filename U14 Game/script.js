@@ -434,7 +434,7 @@ function game() {
         }
 
         //Player 2 Shooting
-        if (keyIsDown(45) && p2Left == true && p2Shooting == false) {
+        if (keyIsDown(16) && p2Left == true && p2Shooting == false) {
             p2Shooting = true
             p2Projectile.position.x = p2Gun.position.x
             p2Projectile.position.y = p2Gun.position.y
@@ -443,7 +443,7 @@ function game() {
             shoot.play()
         }
 
-        if (keyIsDown(45) && p2Left == false && p2Shooting == false) {
+        if (keyIsDown(16) && p2Left == false && p2Shooting == false) {
             p2Shooting = true
             p2Projectile.position.x = p2Gun.position.x
             p2Projectile.position.y = p2Gun.position.y
