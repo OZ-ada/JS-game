@@ -100,8 +100,7 @@ function menu() {
         textFont("Bebas Neue")
         fill(255)
         text("Play", 500, 310)
-        textSize(40)
-        text("Instructions", 500, 510)
+        menuButtons[1].visible = false
         if (menuButtons[0].mouseIsOver) {
             if (mouseIsPressed) {
                 startup()
@@ -501,6 +500,10 @@ function game() {
         if (p1Win == true && p2Win == true) {
             tie = true
         }
+        textFont("Bebas Neue")
+        textSize(27)
+        text("SPACE to shoot",10,70)
+        text("SHIFT to shoot",860,70)
     }
 
 }
